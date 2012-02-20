@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/build/index.css" type="text/css" media="screen" charset="utf-8">
+    <style type="text/css">
+
+      /*
+       * demo page bootstrap customizations
+       */
+      #hero-two{
+        text-align:center;
+      }
+      .hero-row{
+        margin-bottom:8em;
+        text-shadow: 0px 1px 4px black;
+      }
+      #hero-one, #hero-three{ padding-top:10em;}
+      h2{
+        color:#fff;
+      }
+      #graphite{
+        stroke-width: 2px;
+      }
+
+
+      /*
+       * graphene high-contrast theme customizations
+       */
+      svg.tsview{
+        background:none;
+      }
+      .ggview .gauge circle.outer{
+        stroke:none;
+        fill:none;
+      }
+      .ggview .gauge circle.inner{
+        stroke:none;
+        fill:none;
+      }
+      body{
+        background: url(/images/diagmonds.png)
+      }
+      .span4{
+        text-align:center;
+      }
+      </style>
+  </head>
+  <body>
+    
+
+    <div id="dashboard" class="container-fluid">
+      <div class="row-fluid hero-row">
+        <div id="hero-one" class="span4">
+        </div>
+        <div id="hero-two" class="span4">
+          <svg id="graphite" title="graphite" width="347.409px" height="115.278px" viewBox="0 0 347.409 115.278" enable-background="new 0 0 347.409 115.278"
+	 xml:space="preserve">
+        <g>
+          <polygon fill="none"  stroke-miterlimit="10" points="2.448,58.482 12.782,40.279 35.115,40.279 
+            44.782,58.482 34.782,77.696 12.782,77.696 	"/>
+          <polyline fill="none"  stroke-miterlimit="10" points="34.782,77.696 44.782,96.238 
+            34.782,114.777 12.448,114.777 	"/>
+        </g>
+        <polyline fill="none"  stroke-miterlimit="10" points="84.157,40.445 61.823,40.445 
+          51.157,58.945 62.157,77.445 "/>
+        <polyline fill="none"  stroke-miterlimit="10" points="94.698,77.611 84.032,58.612 
+          94.698,40.279 116.032,40.279 126.365,58.945 116.365,77.611 "/>
+        <g>
+          <polygon fill="none"  stroke-miterlimit="10" points="142.989,77.945 132.989,58.945 
+            142.989,39.945 165.598,39.945 175.655,58.945 165.598,77.945 	"/>
+          <polyline fill="none"  stroke-miterlimit="10" points="142.989,77.945 132.989,96.445 
+            142.989,114.945 	"/>
+        </g>
+        <polyline fill="none"  stroke-miterlimit="10" points="193.655,2.778 182.655,21.443 
+          193.655,40.448 182.655,58.434 193.655,77.777 "/>
+        <polyline fill="none"  stroke-miterlimit="10" points="193.655,40.448 215.655,40.448 
+          225.322,58.773 215.655,77.777 "/>
+        <g>
+          <polyline fill="none"  stroke-miterlimit="10" points="243.095,115.111 232.095,96.777 
+            243.095,78.445 232.095,59.111 243.095,41.445 	"/>
+          <line fill="none"  stroke-miterlimit="10" x1="243.095" y1="78.445" x2="265.235" y2="78.445"/>
+        </g>
+        <polyline fill="none"  stroke-miterlimit="10" points="276.08,77.611 265.414,58.612 
+          276.08,40.279 297.414,40.279 307.746,58.945 297.746,77.611 "/>
+        <line fill="none"  stroke-miterlimit="10" x1="265.414" y1="21.276" x2="276.414" y2="39.944"/>
+        <g>
+          <polyline fill="none"  stroke-miterlimit="10" points="325.269,115.278 314.269,96.944 
+            325.269,78.612 314.269,59.278 325.269,41.613 	"/>
+          <line fill="none"  stroke-miterlimit="10" x1="325.269" y1="78.612" x2="347.409" y2="78.612"/>
+          </g><br/><br/>
+      <h2>A <a href="">D3.js</a>, <a href="">Backbone.js</a> based <a
+      href="">Graphite</a> Dashboard Toolkit.</h2>
+      <br/><br/>
+
+    <a class="btn btn-large btn-orange">View on Github</a> <span
+      style="font-size:1.2em">&nbsp;</span>
+    <a href="https://twitter.com/intent/follow?screen_name=jondot"
+    class="btn btn-large btn-blk"><i></i>Follow @jondot</a>
+
+        </div>
+        <div id="hero-three" class="span3">
+         
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div id="g1-1" class="span4">
+        </div>
+        <div id="g1-2" class="span4">
+        </div>
+        <div id="g1-3" class="span4">
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div id="g2-1" class="span4">
+        </div>
+        <div id="g2-2" class="span4">
+        </div>
+        <div id="g2-3" class="span4">
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/vendor/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/build/index.js"></script>    
+    <script type="text/javascript" src="example-dash.js"></script>    
+      <div>
+      
+
+  </body>
+</html>
