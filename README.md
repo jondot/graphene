@@ -142,8 +142,6 @@ It should be *very* easy though.
 I might end up both with a server side (that fetches the dashboard layout
 dynamically) or a tool that does that offline.
 
-Just for reference, here is how a fully working component should look
-like in your Graphene dashboard description:
 
 
 
