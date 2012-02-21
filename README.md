@@ -28,9 +28,9 @@ You should serve that folder off some kind of a helper webserver. For
 Ruby:
 
     $ gem install serve
-    $ cd example; serve .
+    $ serve .
 
-And open up your browser at `http://localhost:4000/dashboard.html`. You
+And open up your browser at `http://localhost:4000/example/dashboard.html`. You
 should see the dashboard alive, rigged with a demo data provider.
 
 ## Setting up a Dev Env
