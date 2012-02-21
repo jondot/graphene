@@ -1,8 +1,8 @@
 # Graphene
 
-Graphene is a realtime dashboard & graphing toolkit based on D3 and Backbone.  
+[Graphene](jondot.github.com/graphene/) is a realtime dashboard & graphing toolkit based on [D3](http://mbostock.github.com/d3/) and [Backbone](http://documentcloud.github.com/backbone/).  
 
-It was made to offer a very aesthetic realtime dashboard that lives on top of Graphite (but could be tailored to any back
+It was made to offer a very aesthetic realtime dashboard that lives on top of [Graphite](http://graphite.wikidot.com/) (but could be tailored to any back
 end, eventually).  
 
 Combining D3's immense capabilities of managing live data, and Backbone's
