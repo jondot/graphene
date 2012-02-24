@@ -1,5 +1,4 @@
 
-
 class Graphene
   demo:->
     @is_demo = true
@@ -20,6 +19,19 @@ class Graphene
         new klass(_.extend({ model: ts }, opts))
       ts.start()
       console.log ts
+
+  discover: (url, dash, parent_specifier, cb)->
+    $.get "#{url}/dashboard/load/#{dash}", (data)->
+      i = 0
+      desc = {}
+      _.each data['state']['graphs'], (graph)->
+        path = graph[2]
+        desc["Graph #{i}"] =
+          source: "#{url}#{path}&format=json"
+          TimeSeries:
+            parent: parent_specifier(i, url)
+        i++
+      cb(desc)
 
 @Graphene = Graphene
 

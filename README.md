@@ -134,15 +134,29 @@ Graphene-ready URL!
 
     http://<graphite>/render?from=-2hours&until=now&width=400&height=250&target=some.metric&title=my_metric&format=json
 
-Since I wanted to keep everything client-side, I didn't yet decide the
-correct way to import these data.  
-
-It should be *very* easy though.   
-
-I might end up both with a server side (that fetches the dashboard layout
-dynamically) or a tool that does that offline.
 
 
+# Autodiscovery
+
+If all you really want is to migrate your Graphite "old" dash, a good
+starting point would be with `discover()`, which will take all of your
+timeseries and convert to a dashboard running Graphene TimeSeries:
+
+
+    var g = new Graphene;
+    g.discover('http://my.graphite.host.com', 'dev-pollers', function(i, url){ return "#dashboard"; }, function(description){
+      g.build(description);
+      console.log(description);
+    });
+
+You should specify `graphite host`, `dashboard name`, a `parent
+specifier` which is responsible to spit out the next graph parent, and a
+`result callback`.
+
+You can also use the `description` result as a starting point for
+building a more elaborate dashboard.
+
+Check out an example at `/examples/dashboard-autodiscover.html`
 
 
 # I Want More!
@@ -220,8 +234,6 @@ For more detail, see `/tools`
 
 These significant features will happen in the following weeks:
 
-* Import tool and dynamic server component to make transforming your
-  "standard" Graphite dashboard with just a point and click.
 * Visual hints. Lower/upper threshold options for TimeSeries. Once a
   value passes above/below these, the Graph will give a visual cue
 (flashing, heartbeat)

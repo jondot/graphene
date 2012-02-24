@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/build/index.css" type="text/css" media="screen" charset="utf-8">
+    <style type="text/css">
+
+      /*
+       * demo page bootstrap customizations
+       */
+      #hero-two{
+        text-align:center;
+      }
+      .hero-row{
+        margin-bottom:8em;
+        text-shadow: 0px 1px 4px black;
+      }
+      #hero-one, #hero-three{ padding-top:10em;}
+      h2{
+        color:#fff;
+      }
+      #graphite{
+        stroke-width: 2px;
+      }
+
+
+      /*
+       * graphene high-contrast theme customizations
+       */
+      svg.tsview{
+        background:none;
+      }
+      .ggview .gauge circle.outer{
+        stroke:none;
+        fill:none;
+      }
+      .ggview .gauge circle.inner{
+        stroke:none;
+        fill:none;
+      }
+      body{
+        background: url(/images/diagmonds.png)
+      }
+      .span4{
+        text-align:center;
+      }
+      #dashboard div{
+        float:left;
+      }
+      </style>
+  </head>
+  <body>
+    
+
+    <div id="dashboard" class="container-fluid">
+      
+    </div>
+
+    <script type="text/javascript" src="/vendor/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/build/index.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        var g = new Graphene;
+        g.discover('http://my.graphite.host.com', 'dev-pollers', function(i, url){ return "#dashboard"; }, function(description){
+          g.build(description);
+          console.log(description);
+        });
+      });
+    </script>
+      
+
+  </body>
+</html>
