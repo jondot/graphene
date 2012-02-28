@@ -141,9 +141,9 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
   process_data: (js)=>
     data = _.map js, (dp)->
       min = d3.min(dp.datapoints, (d) -> d[0])
-      return null if min == null
+      return null unless min
       max = d3.max(dp.datapoints, (d) -> d[0])
-      return null if max == null
+      return null unless max
 
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
@@ -209,7 +209,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
   render: ()=>
     console.log("rendering.")
     data = @model.get('data')
-    datum = if data then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
+    datum = if data && data.length > 1 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
     @gauge.redraw(@by_type(datum))
 
@@ -249,8 +249,8 @@ class Graphene.GaugeLabelView extends Backbone.View
 
   render: ()=>
     data = @model.get('data')
-    
-    datum = if data then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
+    console.log data
+    datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
 
     vis = @vis
