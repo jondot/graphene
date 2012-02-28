@@ -290,6 +290,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @label_formatter = @options.label_formatter || (label) -> label
     @firstrun = true
     @parent = @options.parent || '#parent'
+    @null_value = 0
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -306,6 +307,8 @@ class Graphene.TimeSeriesView extends Backbone.View
   render: ()=>
     console.log("rendering.")
     data = @model.get('data')
+
+    data = if data && data.length > 0 then data else [{ ymax: @null_value, ymin: @null_value, points: [[@null_value, 0],[@null_value, 0]] }]
 
     #
     # find overall min/max of sets
