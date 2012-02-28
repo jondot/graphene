@@ -170,6 +170,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
 
     @parent = @options.parent || '#parent'
     @value_format = d3.format(".3s")
+    @null_value = 0
 
     @from = @options.from || 0
     @to = @options.to || 100
@@ -208,7 +209,8 @@ class Graphene.GaugeGadgetView extends Backbone.View
   render: ()=>
     console.log("rendering.")
     data = @model.get('data')
-    datum = data[0]
+    datum = if data then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
+
     @gauge.redraw(@by_type(datum))
 
 
@@ -225,11 +227,11 @@ class Graphene.GaugeLabelView extends Backbone.View
     @title  = @options.title
     @type   = @options.type
     @parent = @options.parent || '#parent'
-    @value_format = d3.format(".3s")
+    @value_format  = d3.format(".3s")
+    @null_value = 0
 
     @vis = d3.select(@parent).append("div")
             .attr("class", "glview")
-
     if @title
       @vis.append("div")
           .attr("class", "label")
@@ -247,7 +249,9 @@ class Graphene.GaugeLabelView extends Backbone.View
 
   render: ()=>
     data = @model.get('data')
-    datum = data[0]
+    
+    datum = if data then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
+
 
     vis = @vis
     metric_items = vis.selectAll('div.metric')
