@@ -253,7 +253,8 @@ I'd like to thank:
   but not caring about the time flying by at all.
 * Tomer Doron (tomerd) - for the awesome D3 gauge gadget example which I've
   customized and included here.
-
+* Chris Mytton (hecticjeff) - contributions
+* Michael Garski (mgarski) - contributions
 
 
 # Contributing
