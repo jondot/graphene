@@ -141,9 +141,9 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
   process_data: (js)=>
     data = _.map js, (dp)->
       min = d3.min(dp.datapoints, (d) -> d[0])
-      return null unless min
+      return null unless min != undefined 
       max = d3.max(dp.datapoints, (d) -> d[0])
-      return null unless max
+      return null unless max != undefined 
 
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
