@@ -209,7 +209,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
   render: ()=>
     console.log("rendering.")
     data = @model.get('data')
-    datum = if data && data.length > 1 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
+    datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
     @gauge.redraw(@by_type(datum))
 
