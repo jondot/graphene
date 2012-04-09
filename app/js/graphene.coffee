@@ -59,10 +59,19 @@ class Graphene.GraphiteModel extends Backbone.Model
     clearInterval(@t_index)
 
   refresh: ()=>
-    d3.json @get('source'),
-      (js) =>
+    url = @get('source')
+    #jQuery expects to see 'jsonp=?' in the url in order to perform JSONP-style requests
+    if -1 == url.indexOf('&jsonp=?')
+        url = url + '&jsonp=?'
+
+    options =
+      url: url
+      dataType: 'json'
+      jsonp: 'jsonp'
+      success: (js) =>
         console.log("got data.")
         @process_data(js)
+    $.ajax options         
 
   process_data: ()=>
     return null
