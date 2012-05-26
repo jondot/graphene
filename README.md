@@ -206,7 +206,8 @@ description.
     padding = the kind of padding you need
     title = box title
     label_formatter = and a formatter, as before.
-
+    as_infinite = [2] pick the 3rd (index:2) series and draw it [as
+infinite](http://graphite.readthedocs.org/en/1.0/functions.html#graphite.render.functions.drawAsInfinite)
 
 # Visuals
 
