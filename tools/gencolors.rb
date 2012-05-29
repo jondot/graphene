@@ -18,12 +18,20 @@
 NUM_COLORS = 10
 
 interval = 360/NUM_COLORS 
-i=0
+i = 190
 j = 1
-while i < 360
-  puts ".h-col-#{j}{ stroke: hsl(#{i}, 100%, 50%); fill: hsl(#{i}, 100%, 50%);}"
+
+# Figure out what a full circle from the start would be
+max = i + 360
+
+# Iterate until we make a full circle
+while i < max
+
+# Since we can get higher than 360, find the right value
+color = i % 360
+
+  puts ".h-col-#{j}{ stroke: hsl(#{color}, 100%, 50%); fill: hsl(#{color}, 100%, 50%);}"
   j +=1
   i += interval
 end
-
 
