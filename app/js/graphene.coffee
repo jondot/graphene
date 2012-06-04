@@ -178,7 +178,8 @@ class Graphene.GaugeGadgetView extends Backbone.View
     @type   = @options.type
 
     @parent = @options.parent || '#parent'
-    @value_format = d3.format(".3s")
+    @value_format  = @options.value_format || ".3s"
+    @value_format = d3.format(@value_format)
     @null_value = 0
 
     @from = @options.from || 0
@@ -236,7 +237,8 @@ class Graphene.GaugeLabelView extends Backbone.View
     @title  = @options.title
     @type   = @options.type
     @parent = @options.parent || '#parent'
-    @value_format  = d3.format(".3s")
+    @value_format  = @options.value_format || ".3s"
+    @value_format = d3.format(@value_format)
     @null_value = 0
 
     @vis = d3.select(@parent).append("div")
@@ -307,7 +309,9 @@ class Graphene.TimeSeriesView extends Backbone.View
             .attr("height", @height + (@padding[0]+@padding[2]))
             .append("g")
             .attr("transform", "translate(" + @padding[3] + "," + @padding[0] + ")")
-    @value_format = d3.format(".3s")
+    # Is this used in the timeseries? -dvdv
+    @value_format  = @options.value_format || ".3s"
+    @value_format = d3.format(@value_format)
 
     @model.bind('change', @render)
     console.log("TS view: #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
