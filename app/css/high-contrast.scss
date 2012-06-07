@@ -1,0 +1,188 @@
+
+
+/*
+ * Generated high contrast colors. See tools/gencolors.rb
+ */
+
+.h-col-1{ stroke: hsl(0, 100%, 50%); fill: hsl(0, 100%, 50%);}
+.h-col-2{ stroke: hsl(36, 100%, 50%); fill: hsl(36, 100%, 50%);}
+.h-col-3{ stroke: hsl(72, 100%, 50%); fill: hsl(72, 100%, 50%);}
+.h-col-4{ stroke: hsl(108, 100%, 50%); fill: hsl(108, 100%, 50%);}
+.h-col-5{ stroke: hsl(144, 100%, 50%); fill: hsl(144, 100%, 50%);}
+.h-col-6{ stroke: hsl(180, 100%, 50%); fill: hsl(180, 100%, 50%);}
+.h-col-7{ stroke: hsl(216, 100%, 50%); fill: hsl(216, 100%, 50%);}
+.h-col-8{ stroke: hsl(252, 100%, 50%); fill: hsl(252, 100%, 50%);}
+.h-col-9{ stroke: hsl(288, 100%, 50%); fill: hsl(288, 100%, 50%);}
+.h-col-10{ stroke: hsl(324, 100%, 50%); fill: hsl(324, 100%, 50%);}
+
+
+
+
+
+
+body {
+  background:url(/images/dark_stripes.png);
+  color:#fff;
+  stroke:#fff;
+}
+a{
+  color:#F90;
+  &:hover{
+    color:#fc0;
+    text-decoration: none;
+  }
+}
+svg.tsview{
+  background: #111;
+  box-shadow: 0px 1px 4px 0px #000;
+  margin:1em;
+  border-radius: 4px;
+}
+line.tick {
+  shape-rendering: crispEdges;
+}
+
+
+.area{
+  fill-opacity:0.2;
+}
+.line {
+  fill: none;
+  stroke-width: 1px;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis{
+  line{
+    stroke-opacity:0.3;
+  }
+  path{
+    display: none;
+  }
+  .minor{
+    stroke-opacity: .5;
+  }
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke-opacity: 0.3;
+}
+
+.min-tag{
+  fill:red;
+  margin: 0 1em;
+}
+
+.max-tag{
+  fill:green;
+  margin: 0 1em;
+}
+
+.ts-color{
+  stroke:none;
+}
+
+text, tspan{
+  stroke:none;
+  fill:#fff;
+}
+
+
+/*
+ *  Gauge Label
+ */
+.glview{
+  text-align: center;
+
+  .metric .value{
+    font-size:6em;
+  }
+
+  .label{
+    background:none;
+  }
+}
+
+
+
+/*
+ * Gauge Gadget
+ */
+.ggview{
+  text-align:center;
+
+  .gauge{
+    circle{
+      &.outer{
+        fill: #101010;
+        stroke: #000;
+        stroke-width: 0.5px;
+      }
+
+      &.inner{
+        fill: #050505;
+        stroke: #000;
+        stroke-width: 2px;
+      }
+
+      &.pointer-circle{
+        fill:#dd0000;
+        stroke:#000;
+        opacity:1;
+      }
+    }
+
+    line{
+      &.small-tick{
+        stroke: red;
+        stroke-opacity:0.3;
+        stroke-width: 1px;
+      }
+
+      &.big-tick{
+        stroke: red;
+        stroke-opacity: 0.8;
+        stroke-width: 2px;
+      }
+    }
+
+
+    text{
+      &.label{
+        fill: red;
+        stroke-width: 0px;
+        fill-opacity:0.4;
+      }
+
+      &.limit{
+        fill: red;
+        stroke-width: 0px;
+        fill-opacity: 0.3;
+      }
+
+      &.value{
+        fill:red;
+        stroke:red;
+        stroke-width:1px;
+      }
+    }
+
+    path{
+      &.pointer{
+        fill:red;
+        stroke:#c63310;
+        fill-opacity: 0.5;
+      }
+
+      &.band{
+        stroke:none;
+        fill-opacity:0.9;
+      }
+    }
+  }
+}
+
