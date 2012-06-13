@@ -46,6 +46,7 @@
     },
     "Topics": {
       source: "http://localhost:4567/",
+      refresh_interval: 20000,
       TimeSeries: {
         parent: '#g1-3'
       }
