@@ -16,11 +16,9 @@ class Graphene
         model_opts.refresh_interval = json[k].refresh_interval
         delete json[k].refresh_interval
 
-      ts = new klass(model_opts)
-
-
       _.each json[k], (opts, view)->
         klass = eval("Graphene.#{view}View")
+        ts = new ((new klass).model)(model_opts)
         console.log _.extend({ model: ts }, opts)
         new klass(_.extend({ model: ts }, opts))
       ts.start()
