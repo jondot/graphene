@@ -1,4 +1,5 @@
 
+
 class Graphene
   demo:->
     @is_demo = true
@@ -15,14 +16,13 @@ class Graphene
       if json[k].refresh_interval
         model_opts.refresh_interval = json[k].refresh_interval
         delete json[k].refresh_interval
-
+      console.log(json);
       _.each json[k], (opts, view)->
         klass = eval("Graphene.#{view}View")
         ts = new ((new klass).model)(model_opts)
         console.log _.extend({ model: ts }, opts)
         new klass(_.extend({ model: ts }, opts))
-      ts.start()
-      console.log ts
+        ts.start()
 
   discover: (url, dash, parent_specifier, cb)->
     $.get "#{url}/dashboard/load/#{dash}", (data)->
