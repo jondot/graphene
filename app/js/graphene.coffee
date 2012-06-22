@@ -144,7 +144,24 @@ class Graphene.DemoTimeSeries extends Backbone.Model
 
 
 
+class Graphene.BarChart extends Graphene.GraphiteModel
+  process_data: (js)=>
+    console.log 'process data barchart'
+    data = _.map js, (dp)->
+      min = d3.min(dp.datapoints, (d) -> d[0])
+      return null unless min != undefined 
+      max = d3.max(dp.datapoints, (d) -> d[0])
+      return null unless max != undefined 
 
+      _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
+      return {
+        points: _.reject(dp.datapoints, (d)-> d[0] == null),
+        ymin: min,
+        ymax: max,
+        label: dp.target 
+      }
+    data = _.reject data, (d)-> d == null
+    @set(data:data)
 
 class Graphene.TimeSeries extends Graphene.GraphiteModel
   process_data: (js)=>
@@ -153,7 +170,6 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
       return null unless min != undefined 
       max = d3.max(dp.datapoints, (d) -> d[0])
       return null unless max != undefined 
-
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
         points: _.reject(dp.datapoints, (d)-> d[0] == null),
@@ -469,6 +485,86 @@ class Graphene.TimeSeriesView extends Backbone.View
         .ease("linear")
         .duration(@animate_ms) 
         .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
+# Barcharts
+class Graphene.BarChartView extends Backbone.View
+  model: Graphene.TimeSeries
+  tagName: 'div'
+  initialize: () ->
+    @line_height = @options.line_height || 16
+    @animate_ms = @options.animate_ms || 500
+    @num_labels = @options.labels || 3
+    @sort_labels = @options.labels_sort || 'desc'
+    @display_verticals = @options.display_verticals || false
+    @width = @options.width || 400
+    @height = @options.height || 100
+    @padding = @options.padding || [@line_height*2, 32, @line_height*(3+@num_labels), 32] #trbl
+    @title = @options.title
+    @label_formatter = @options.label_formatter || (label) -> label
+    @firstrun = true
+    @parent = @options.parent || '#parent'
+    @null_value = 0
 
+    @vis = d3.select(@parent).append("svg")
+            .attr("class", "tsview")
+            .attr("width",  @width  + (@padding[1]+@padding[3]))
+            .attr("height", @height + (@padding[0]+@padding[2]))
+            .append("g")
+            .attr("transform", "translate(" + @padding[3] + "," + @padding[0] + ")")
+    # Extra option to set width of the bars
+    @bar_width = Math.min(@options.bar_width, 1) || 0.50
+    @model.bind('change', @render)
+  render: () =>
+    # getting data
+    data = @model.get('data')
+    dmax = _.max data, (d)-> d.ymax
+    dmin = _.min data, (d)-> d.ymin
+    data = _.sortBy(data, (d)-> 1*d.ymax)
+    points = _.map data, (d)-> d.points
+    # calculate the width of the bars
+    calculate_bar_width = (points, width, scale=1)-> console.log(scale); ((width / points[0].length)*scale)
 
+    x = d3.time.scale().domain([data[0].points[0][1], data[0].points[data[0].points.length-1][1]]).range([0, (@width - calculate_bar_width(points, @width))])
+    y = d3.scale.linear().domain([dmin.ymin, dmax.ymax]).range([@height, 0]).nice()
+
+    xtick_sz = if @display_verticals then -@height else 0
+    xAxis = d3.svg.axis().scale(x).ticks(4).tickSize(xtick_sz).tickSubdivide(true)
+    yAxis = d3.svg.axis().scale(y).ticks(4).tickSize(-@width).orient("left").tickFormat(d3.format("s"))
+    vis = @vis
+    vis.append("svg:g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + @height + ")")
+          .transition()
+          .duration(@animate_ms)
+          .call(xAxis)
+
+    vis.append("svg:g").attr("class", "y axis").call(yAxis)
+    #We need this value because the bars are drawn starting at the top
+    canvas_height = @height
+    if @firstrun
+      @firstrun = false
+      vis.selectAll("rect").remove()
+      vis.selectAll("rect")
+        .data(points[0])
+        .enter().append("rect")
+        .attr("x", (d,i) -> console.log(x(d[1])); x(d[1]))
+        .attr("y", (d,i) -> canvas_height - (canvas_height-y(d[0])))
+        .attr("width", calculate_bar_width(points, @width, @bar_width))
+        .attr("height", (d,i) -> canvas_height-y(d[0]))
+        .attr("class", "h-col-1 area")
+
+    vis.selectAll("rect")
+      .data(points[0])
+      .transition()
+      .ease("linear")
+      .duration(250)
+      .attr("x", (d,i) -> x(d[1]))
+      .attr("y", (d,i) -> canvas_height - (canvas_height-y(d[0])))
+      .attr("width", calculate_bar_width(points, @width, @bar_width))
+      .attr("height", (d,i) -> canvas_height-y(d[0]))
+      .attr("class", "h-col-1 area")
+
+    vis.transition().ease("linear").duration(@animate_ms).select(".x.axis").call(xAxis)
+    vis.select(".y.axis").call(yAxis)
+
+    console.log "done drawing"
 
