@@ -70,7 +70,7 @@ To build a new dashboard, you can/should use the builder:
 
 
 
-Where `description` will be the hardest thing you'll have to do here. It is a hash strucure, note that urls (since we use demo provider) do nothing. Here:
+Where `description` will be the hardest thing you'll have to do here. It is a hash structure, note that urls (since we use demo provider) do nothing. Here:
 
     description = {
       "Total Notifications": {
@@ -240,7 +240,7 @@ These significant features will happen in the following weeks:
 * RSS widget. Include a stream of events using an RSS feed; provide
   regex rules which cause RSS entries to be included, or be classified
 as various levels of alerts. The goal is to be able to incorporate
- source control history (github events), and alert feeds from other systems.
+ source control history (GitHub events), and alert feeds from other systems.
 
 
 
