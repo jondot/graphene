@@ -16,10 +16,10 @@ class Graphene
       if json[k].refresh_interval
         model_opts.refresh_interval = json[k].refresh_interval
         delete json[k].refresh_interval
-      console.log(json);
+      ts = new klass(model_opts)
+
       _.each json[k], (opts, view)->
         klass = eval("Graphene.#{view}View")
-        ts = new ((new klass).model)(model_opts)
         console.log _.extend({ model: ts }, opts)
         new klass(_.extend({ model: ts }, opts))
         ts.start()
@@ -190,7 +190,6 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
 
 
 class Graphene.GaugeGadgetView extends Backbone.View
-  model: Graphene.TimeSeries
   className: 'gauge-gadget-view'
   tagName: 'div'
   initialize: ()->
@@ -249,7 +248,6 @@ class Graphene.GaugeGadgetView extends Backbone.View
 
 
 class Graphene.GaugeLabelView extends Backbone.View
-  model: Graphene.TimeSeries
   className: 'gauge-label-view'
   tagName: 'div'
   initialize: ()->
@@ -305,7 +303,6 @@ class Graphene.GaugeLabelView extends Backbone.View
 
 
 class Graphene.TimeSeriesView extends Backbone.View
-  model: Graphene.TimeSeries
   tagName: 'div'
 
   initialize: ()->
@@ -491,7 +488,6 @@ class Graphene.TimeSeriesView extends Backbone.View
         .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
 # Barcharts
 class Graphene.BarChartView extends Backbone.View
-  model: Graphene.TimeSeries
   tagName: 'div'
   initialize: () ->
     @line_height = @options.line_height || 16

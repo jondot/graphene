@@ -247,7 +247,7 @@ as various levels of alerts. The goal is to be able to incorporate
 
 
 # Thanks!
-I'd like to thank:
+I'd like to thank (chronological order):
 
 * Mike Bostock - for D3 itself, its awesome!. I found myself experimenting hours upon hours with it,
   but not caring about the time flying by at all.
@@ -255,6 +255,13 @@ I'd like to thank:
   customized and included here.
 * Chris Mytton (hecticjeff) - contributions
 * Michael Garski (mgarski) - contributions
+* dcartoon - JSONP cross domain support
+* Sean Kilgore (logikal) - contributions
+* arctanb - contributions
+* Dennis van der Vliet (dennisvdvliet) - bar graphs and other
+  contributions
+* cognusion - contributions
+
 
 
 # Contributing
