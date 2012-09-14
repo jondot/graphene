@@ -349,7 +349,11 @@ class Graphene.TimeSeriesView extends Backbone.View
     #
     # build dynamic x & y metrics.
     #
-    x = d3.time.scale().domain([data[0].points[0][1], data[0].points[data[0].points.length-1][1]]).range([0, @width])
+    xpoints = _.flatten (d.points.map((p)->p[1]) for d in data)
+    xmin = _.min xpoints, (x)->x.valueOf()
+    xmax = _.max xpoints, (x)->x.valueOf()
+
+    x = d3.time.scale().domain([xmin, xmax]).range([0, @width])
     y = d3.scale.linear().domain([dmin.ymin, dmax.ymax]).range([@height, 0]).nice()
 
     #
@@ -470,22 +474,18 @@ class Graphene.TimeSeriesView extends Backbone.View
 
     vis.selectAll("path.area")
         .data(points)
-        .attr("transform", (d)-> "translate(" + x(d[1][1]) + ")")
         .attr("d", area)
         .transition()
         .ease("linear")
         .duration(@animate_ms)
-        .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
 
 
     vis.selectAll("path.line")
         .data(points)
-        .attr("transform", (d)-> "translate(" + x(d[1][1]) + ")")
         .attr("d", line)
         .transition()
         .ease("linear")
         .duration(@animate_ms)
-        .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
 
 
 # Barcharts
