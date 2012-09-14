@@ -75,7 +75,7 @@ class Graphene.GraphiteModel extends Backbone.Model
       success: (js) =>
         console.log("got data.")
         @process_data(js)
-    $.ajax options         
+    $.ajax options
 
   process_data: ()=>
     return null
@@ -118,7 +118,7 @@ class Graphene.DemoTimeSeries extends Backbone.Model
 
   refresh: ()=>
     # clone data - tricks d3/backbone refs
-    @data = _.map @data, (d)-> 
+    @data = _.map @data, (d)->
       d = _.clone(d)
       d.points = _.map(d.points, (p)-> [p[0], p[1]])
       d
@@ -153,16 +153,16 @@ class Graphene.BarChart extends Graphene.GraphiteModel
     console.log 'process data barchart'
     data = _.map js, (dp)->
       min = d3.min(dp.datapoints, (d) -> d[0])
-      return null unless min != undefined 
+      return null unless min != undefined
       max = d3.max(dp.datapoints, (d) -> d[0])
-      return null unless max != undefined 
+      return null unless max != undefined
 
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
         points: _.reject(dp.datapoints, (d)-> d[0] == null),
         ymin: min,
         ymax: max,
-        label: dp.target 
+        label: dp.target
       }
     data = _.reject data, (d)-> d == null
     @set(data:data)
@@ -171,15 +171,15 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
   process_data: (js)=>
     data = _.map js, (dp)->
       min = d3.min(dp.datapoints, (d) -> d[0])
-      return null unless min != undefined 
+      return null unless min != undefined
       max = d3.max(dp.datapoints, (d) -> d[0])
-      return null unless max != undefined 
+      return null unless max != undefined
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
         points: _.reject(dp.datapoints, (d)-> d[0] == null),
         ymin: min,
         ymax: max,
-        label: dp.target 
+        label: dp.target
       }
     data = _.reject data, (d)-> d == null
     @set(data:data)
@@ -471,21 +471,23 @@ class Graphene.TimeSeriesView extends Backbone.View
     vis.selectAll("path.area")
         .data(points)
         .attr("transform", (d)-> "translate(" + x(d[1][1]) + ")")
-        .attr("d", area) 
-        .transition() 
+        .attr("d", area)
+        .transition()
         .ease("linear")
-        .duration(@animate_ms) 
+        .duration(@animate_ms)
         .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
 
 
     vis.selectAll("path.line")
         .data(points)
         .attr("transform", (d)-> "translate(" + x(d[1][1]) + ")")
-        .attr("d", line) 
-        .transition() 
+        .attr("d", line)
+        .transition()
         .ease("linear")
-        .duration(@animate_ms) 
+        .duration(@animate_ms)
         .attr("transform", (d) -> "translate(" + x(d[0][1]) + ")")
+
+
 # Barcharts
 class Graphene.BarChartView extends Backbone.View
   tagName: 'div'
@@ -567,4 +569,3 @@ class Graphene.BarChartView extends Backbone.View
     vis.select(".y.axis").call(yAxis)
 
     console.log "done drawing"
-
