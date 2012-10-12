@@ -231,8 +231,9 @@ class Graphene.GaugeGadgetView extends Backbone.View
 
   by_type:(d)=>
     switch @type
-      when "min" then d.ymin
-      when "max" then d.ymax
+      when "min"     then d.ymin
+      when "max"     then d.ymax
+      when "current" then d.points[d.points.length][0]
       else d.points[0][0]
 
   render: ()=>
@@ -272,8 +273,9 @@ class Graphene.GaugeLabelView extends Backbone.View
 
   by_type:(d)=>
     switch @type
-      when "min" then d.ymin
-      when "max" then d.ymax
+      when "min"     then d.ymin
+      when "max"     then d.ymax
+      when "current" then d.points[d.points.length][0]
       else d.points[0][0]
 
   render: ()=>
