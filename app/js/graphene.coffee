@@ -198,7 +198,6 @@ class Graphene.GaugeGadgetView extends Backbone.View
 
     @parent = @options.parent || '#parent'
     @value_format  = @options.value_format || ".3s"
-    @value_format = d3.format(@value_format)
     @null_value = 0
 
     @from = @options.from || 0
@@ -241,7 +240,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
     data = @model.get('data')
     datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
-    @gauge.redraw(@by_type(datum))
+    @gauge.redraw(@by_type(datum), @value_format)
 
 
 

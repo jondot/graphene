@@ -132,9 +132,9 @@ function Gauge(placeholderName, configuration)
 							.attr("r", 0.12 * this.config.raduis);
 	}
 
-	this.redraw = function(value)
+	this.redraw = function(value, value_format)
 	{
-		this.drawPointer(value);
+		this.drawPointer(value, value_format);
 	}
 
 	this.drawBand = function(start, end, color)
@@ -152,7 +152,7 @@ function Gauge(placeholderName, configuration)
 					.attr("transform", function() { return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(270)" });
 	}
 
-	this.drawPointer = function(value)
+	this.drawPointer = function(value, value_format)
 	{
 		var delta = this.config.range / 13;
 
@@ -189,7 +189,7 @@ function Gauge(placeholderName, configuration)
 		var fontSize = Math.round(this.config.size / 10);
 		pointerContainer.selectAll("text")
 							.data([value])
-								.text(Math.round(value))
+								.text(d3.format(value_format)(value))
 							.enter()
 								.append("svg:text")
                   .attr("class", "value")
@@ -197,7 +197,7 @@ function Gauge(placeholderName, configuration)
 									.attr("y", this.config.size - this.config.cy / 4 - fontSize)			 			
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
-									.text(Math.round(value))
+									.text(d3.format(value_format)(value))
 									.style("font-size", fontSize + "px");
 	}
 
