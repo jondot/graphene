@@ -3,6 +3,7 @@
 class Graphene
   demo:->
     @is_demo = true
+
   build: (json)=>
     _.each _.keys(json), (k)=>
       console.log "building [#{k}]"
@@ -20,8 +21,8 @@ class Graphene
 
       _.each json[k], (opts, view)->
         klass = eval("Graphene.#{view}View")
-        console.log _.extend({ model: ts }, opts)
-        new klass(_.extend({ model: ts }, opts))
+        console.log _.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts)
+        new klass(_.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts))
         ts.start()
 
   discover: (url, dash, parent_specifier, cb)->
@@ -40,6 +41,15 @@ class Graphene
 @Graphene = Graphene
 
 
+@getUrlParam = (url, variable)->
+  value = ''
+  query = url.split('?')[1]
+  vars = query.split('&')
+  _.each vars, (v)->
+    pair = v.split('=')
+    if decodeURIComponent(pair[0]) == variable
+      value = decodeURIComponent(pair[1])
+  value
 
 
 
@@ -346,6 +356,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     # find overall min/max of sets
     #
     dmax = _.max data, (d)-> d.ymax
+    dmax.ymax_graph = @options.ymax || dmax.ymax
     dmin = _.min data, (d)-> d.ymin
 
     #
@@ -356,7 +367,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     xmax = _.max xpoints, (x)->x.valueOf()
 
     x = d3.time.scale().domain([xmin, xmax]).range([0, @width])
-    y = d3.scale.linear().domain([dmin.ymin, dmax.ymax]).range([@height, 0]).nice()
+    y = d3.scale.linear().domain([dmin.ymin, dmax.ymax_graph]).range([@height, 0]).nice()
 
     #
     # build axis
