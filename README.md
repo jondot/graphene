@@ -261,7 +261,11 @@ I'd like to thank (chronological order):
 * Dennis van der Vliet (dennisvdvliet) - bar graphs and other
   contributions
 * cognusion - contributions
-
+* David Fisher (tibbon) - README fixes
+* Jean-Louis Giordano (Jell) - contributions
+* Michael Lavrisha (vrish88)- "current" gauge type
+* EButlerIV - contributions
+* David CHAU - contributions
 
 
 # Contributing
