@@ -207,6 +207,7 @@ description.
 * `padding` - the kind of padding you need
 * `title` - box title
 * `label_formatter` - and a formatter, as before.
+* `yMax` - the max value for the Y axis. If not specified and the URL has a yMax parameter, the value will be taken from the URL. Otherwise, this option will have precedence.
 
 
 # Visuals
