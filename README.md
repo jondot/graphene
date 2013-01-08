@@ -267,8 +267,8 @@ I'd like to thank (chronological order):
 * Jean-Louis Giordano (Jell) - contributions
 * Michael Lavrisha (vrish88)- "current" gauge type
 * EButlerIV - contributions
-* David CHAU - contributions
-
+* David CHAU (davidchau) - contributions
+* Phil Cohen (phlipper) - contributions
 
 # Contributing
 
