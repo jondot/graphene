@@ -63,42 +63,42 @@ several widgets to the same data source.
 
 To build a new dashboard, you can/should use the builder:
 
-
-    var g = new Graphene;
-    g.demo(); // hook up demo provider, override all urls.
-    g.build(description);
-
+```javascript
+var g = new Graphene;
+g.demo(); // hook up demo provider, override all urls.
+g.build(description);
+```
 
 
 Where `description` will be the hardest thing you'll have to do here. It is a hash structure, note that urls (since we use demo provider) do nothing. Here:
 
-    description = {
-      "Total Notifications": {
-        source: "http://localhost:4567/",
-        GaugeLabel: {
-          parent: "#hero-one",
-          title: "Notifications Served",
-          type: "max"
-        }
-      },
-      "Poll Time": {
-        source: "http://localhost:4567/",
-        GaugeGadget: {
-          parent: "#hero-one",
-          title: "P1"
-        }
-      },
-      "<just an informative label>": {
-        source: "<graphite graph url, add &format=json to
-                  querystring>",
-        <widget type>: {
-          parent: "<which will be placed in this element>",
-          title: "<title>"
-          ... many other view opts ...
-        }
-      }
+```javascript
+description = {
+  "Total Notifications": {
+    source: "http://localhost:4567/",
+    GaugeLabel: {
+      parent: "#hero-one",
+      title: "Notifications Served",
+      type: "max"
     }
-
+  },
+  "Poll Time": {
+    source: "http://localhost:4567/",
+    GaugeGadget: {
+      parent: "#hero-one",
+      title: "P1"
+    }
+  },
+  "<just an informative label>": {
+    source: "<graphite graph url, add &format=json to querystring>",
+    "<widget type>": {
+      parent: "<which will be placed in this element>",
+      title: "<title>"
+      // ... many other view opts ...
+    }
+  }
+}
+```
 
 
 That's it basically. Advise the example for how your page should be
@@ -142,12 +142,13 @@ If all you really want is to migrate your Graphite "old" dash, a good
 starting point would be with `discover()`, which will take all of your
 timeseries and convert to a dashboard running Graphene TimeSeries:
 
-
-    var g = new Graphene;
-    g.discover('http://my.graphite.host.com', 'dev-pollers', function(i, url){ return "#dashboard"; }, function(description){
-      g.build(description);
-      console.log(description);
-    });
+```javascript
+var g = new Graphene;
+g.discover('http://my.graphite.host.com', 'dev-pollers', function(i, url){ return "#dashboard"; }, function(description){
+  g.build(description);
+  console.log(description);
+});
+```
 
 You should specify `graphite host`, `dashboard name`, a `parent
 specifier` which is responsible to spit out the next graph parent, and a
@@ -178,34 +179,34 @@ description.
 
 ### GaugeLabel
 
-    unit   = unit to display, example "km", or "req/s"
-    title  = the gauge title
-    type   = is it a max/min kinda display? don't care?
-    value_format = you can specify a value formatter (see d3)
+* `unit` - unit to display, example "km", or "req/s"
+* `title` - the gauge title
+* `type` - is it a max/min kinda display? don't care?
+* `value_format` - you can specify a value formatter (see d3)
 
 
 
 ### GaugeGadget
 
-    title  = again, gauge title
-    type   = min/max/null
-    value_format = value format
-    from = start value of the gauge
-    to = end value of the gauge
+* `title` - again, gauge title
+* `type` - min/max/null
+* `value_format` - value format
+* `from` - start value of the gauge
+* `to` - end value of the gauge
 
 
 ### TimeSeries
 
-    line_height = visuals, default 16
-    animate_ms = new data animation in
-    num_labels = max labels to display at the bottom
-    sort_labels = order labels will be sorted
-    display_verticals = display vertical ticks (eww!)
-    width = box width
-    height = box height
-    padding = the kind of padding you need
-    title = box title
-    label_formatter = and a formatter, as before.
+* `line_height` - visuals, default 16
+* `animate_ms` - new data animation in
+* `num_labels` - max labels to display at the bottom
+* `sort_labels` - order labels will be sorted
+* `display_verticals` - display vertical ticks (eww!)
+* `width` - box width
+* `height` - box height
+* `padding` - the kind of padding you need
+* `title` - box title
+* `label_formatter` - and a formatter, as before.
 
 
 # Visuals
@@ -276,9 +277,3 @@ Fork, implement, add tests, pull request, get my everlasting thanks and a respec
 # Copyright
 
 Copyright (c) 2012 [Dotan Nahum](http://gplus.to/dotan) [@jondot](http://twitter.com/jondot). See MIT-LICENSE for further details.
-
-
-
-
-
-
