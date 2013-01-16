@@ -19,7 +19,7 @@ class Graphene
         delete json[k].refresh_interval
       ts = new klass(model_opts)
 
-      _.each json[k], (opts, view)->
+      _.each json[k], (opts, view)=>
         klass = eval("Graphene.#{view}View")
         console.log _.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts)
         new klass(_.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts))
@@ -38,18 +38,23 @@ class Graphene
         i++
       cb(desc)
 
+  getUrlParam: (url, variable)->
+    value = ''
+    query = url.split('?')[1]
+    return value unless query
+
+    vars = query.split('&')
+    return value unless vars && vars.length > 0
+
+    _.each vars, (v)->
+      pair = v.split('=')
+      if decodeURIComponent(pair[0]) == variable
+        value = decodeURIComponent(pair[1])
+    value
+
+  
 @Graphene = Graphene
 
-
-@getUrlParam = (url, variable)->
-  value = ''
-  query = url.split('?')[1]
-  vars = query.split('&')
-  _.each vars, (v)->
-    pair = v.split('=')
-    if decodeURIComponent(pair[0]) == variable
-      value = decodeURIComponent(pair[1])
-  value
 
 
 
