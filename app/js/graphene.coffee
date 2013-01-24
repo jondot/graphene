@@ -289,7 +289,7 @@ class Graphene.TimeSeriesView extends Backbone.View
   initialize: ()->
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
-    @num_labels = @options.labels || 3
+    @num_labels = @options.num_labels || 3
     @sort_labels = @options.labels_sort || 'desc'
     @display_verticals = @options.display_verticals || false
     @width = @options.width || 400
