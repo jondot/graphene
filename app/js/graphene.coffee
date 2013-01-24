@@ -52,8 +52,10 @@ class Graphene.GraphiteModel extends Backbone.Model
 
   start: ()=>
     @refresh()
-    console.log("Starting to poll at #{@get('refresh_interval')}")
-    @t_index = setInterval(@refresh, @get('refresh_interval'))
+    #RunOnce if refresh_interval is set as 0
+    if 0 != @refresh_interval
+      console.log("Starting to poll at #{@get('refresh_interval')}")
+      @t_index = setInterval(@refresh, @get('refresh_interval'))
 
   stop: ()=>
     clearInterval(@t_index)
@@ -71,7 +73,7 @@ class Graphene.GraphiteModel extends Backbone.Model
       success: (js) =>
         console.log("got data.")
         @process_data(js)
-    $.ajax options         
+    $.ajax options
 
   process_data: ()=>
     return null
