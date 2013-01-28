@@ -181,7 +181,11 @@ description.
 
 * `unit` - unit to display, example "km", or "req/s"
 * `title` - the gauge title
-* `type` - is it a max/min kinda display? don't care?
+* `type` - how should data get aggregated?
+  * `max` picks the largest value in the set of datapoints,
+  * `min` picks the smallest value in the set of datapoints,
+  * `current` picks the newest value in the set of datapoints,
+  * null or no setting picks the first value in the set.
 * `value_format` - you can specify a value formatter (see d3)
 
 
@@ -189,7 +193,7 @@ description.
 ### GaugeGadget
 
 * `title` - again, gauge title
-* `type` - min/max/null
+* `type` - same as GaugeLabel
 * `value_format` - value format
 * `from` - start value of the gauge
 * `to` - end value of the gauge
