@@ -5,7 +5,7 @@ class Graphene
     @is_demo = true
   build: (json)=>
     _.each _.keys(json), (k)=>
-      console.log "building [#{k}]"
+      #console.log "building [#{k}]"
       if @is_demo
         klass = Graphene.DemoTimeSeries
       else
@@ -20,7 +20,7 @@ class Graphene
 
       _.each json[k], (opts, view)->
         klass = eval("Graphene.#{view}View")
-        console.log _.extend({ model: ts }, opts)
+        #console.log _.extend({ model: ts }, opts)
         new klass(_.extend({ model: ts }, opts))
         ts.start()
 
@@ -58,7 +58,7 @@ class Graphene.GraphiteModel extends Backbone.Model
     @refresh()
     #RunOnce if refresh_interval is set as 0
     if 0 != @refresh_interval
-      console.log("Starting to poll at #{@get('refresh_interval')}")
+      #console.log("Starting to poll at #{@get('refresh_interval')}")
       @t_index = setInterval(@refresh, @get('refresh_interval'))
 
   stop: ()=>
@@ -75,7 +75,7 @@ class Graphene.GraphiteModel extends Backbone.Model
       dataType: 'json'
       jsonp: 'jsonp'
       success: (js) =>
-        console.log("got data.")
+        #console.log("got data.")
         @process_data(js)
     $.ajax options
 
@@ -152,7 +152,7 @@ class Graphene.DemoTimeSeries extends Backbone.Model
 
 class Graphene.BarChart extends Graphene.GraphiteModel
   process_data: (js)=>
-    console.log 'process data barchart'
+    #console.log 'process data barchart'
     data = _.map js, (dp)->
       min = d3.min(dp.datapoints, (d) -> d[0])
       return null unless min != undefined
@@ -227,7 +227,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
     @gauge.render()
 
     @model.bind('change', @render)
-    console.log("GG view ")
+    #console.log("GG view ")
 
 
   by_type:(d)=>
@@ -238,7 +238,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
       else d.points[0][0]
 
   render: ()=>
-    console.log("rendering.")
+    #console.log("rendering.")
     data = @model.get('data')
     datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
@@ -269,7 +269,7 @@ class Graphene.GaugeLabelView extends Backbone.View
           .text(@title)
 
     @model.bind('change', @render)
-    console.log("GL view ")
+    #console.log("GL view ")
 
 
   by_type:(d)=>
@@ -281,7 +281,7 @@ class Graphene.GaugeLabelView extends Backbone.View
 
   render: ()=>
     data = @model.get('data')
-    console.log data
+    #console.log data
     datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
 
@@ -335,11 +335,11 @@ class Graphene.TimeSeriesView extends Backbone.View
     @value_format = d3.format(@value_format)
 
     @model.bind('change', @render)
-    console.log("TS view: #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
+    #console.log("TS view: #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
 
 
   render: ()=>
-    console.log("rendering.")
+    #console.log("rendering.")
     data = @model.get('data')
 
     data = if data && data.length > 0 then data else [{ ymax: @null_value, ymin: @null_value, points: [[@null_value, 0],[@null_value, 0]] }]
@@ -586,4 +586,4 @@ class Graphene.BarChartView extends Backbone.View
     vis.transition().ease("linear").duration(@animate_ms).select(".x.axis").call(xAxis)
     vis.select(".y.axis").call(yAxis)
 
-    console.log "done drawing"
+    #console.log "done drawing"
