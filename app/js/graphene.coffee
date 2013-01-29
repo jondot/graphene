@@ -322,7 +322,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
-    @asInfinite = @options.asInfinite || [0]
+    @asInfinite = @options.asInfinite || []
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
