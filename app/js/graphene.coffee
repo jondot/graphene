@@ -385,7 +385,6 @@ class Graphene.TimeSeriesView extends Backbone.View
     di = 0
     _.each data, (d)=>
       if @asInfinite && _.include(@asInfinite, di)
-        console.log("asdfasdfa" + d);
         _.each d.points, (p) =>
           p[0] =  if p[0] > 0 then dmax.ymax else 0
       di += 1
