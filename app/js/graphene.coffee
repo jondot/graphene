@@ -302,7 +302,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
-    @asInfinite = @options.as_infinite || []
+    @asInfinite = @options.asInfinite || []
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -358,11 +358,12 @@ class Graphene.TimeSeriesView extends Backbone.View
     #    a > 0 value to infinity (here the max value in graph) or 0 otherwise.
     #
     di = 0
-    _.each data, (d)=>
-      if @asInfinite && _.include(@asInfinite, di)
-        _.each d.points, (p) =>
-          p[0] =  if p[0] > 0 then dmax.ymax else 0
-      di += 1
+    if @asInfinite
+      _.each data, (d)=>
+        if _.include(@asInfinite, d.i) || _.include(@asInfintie, d.label)
+          _.each d.points, (p) =>
+            p[0] = if p[0] > 0 then dmax.ymax else 0
+        di += 1
 
     #
     # get first X labels
