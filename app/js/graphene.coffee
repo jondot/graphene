@@ -382,10 +382,13 @@ class Graphene.TimeSeriesView extends Backbone.View
     # 1. DrawAsInfinite: if a series is marked as such, we'll transform
     #    a > 0 value to infinity (here the max value in graph) or 0 otherwise.
     #
-    _.each data, (d)=>
-      if @asInfinite && _.include(@asInfinite, d.label)
-        _.each d.points, (p) =>
-          p[0] =  if p[0] > 0 then dmax.ymax else 0
+    di = 0
+    if @asInfinite
+      _.each data, (d)=>
+        if _.include(@asInfinite, di) || _.include(@asInfinite, d.label)
+          _.each d.points, (p) =>
+            p[0] = if p[0] > 0 then dmax.ymax else 0
+        di += 1
 
     #
     # get first X labels
