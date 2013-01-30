@@ -52,8 +52,10 @@ class Graphene.GraphiteModel extends Backbone.Model
 
   start: ()=>
     @refresh()
-    console.log("Starting to poll at #{@get('refresh_interval')}")
-    @t_index = setInterval(@refresh, @get('refresh_interval'))
+    #RunOnce if refresh_interval is set as 0
+    if 0 != @refresh_interval
+      console.log("Starting to poll at #{@get('refresh_interval')}")
+      @t_index = setInterval(@refresh, @get('refresh_interval'))
 
   stop: ()=>
     clearInterval(@t_index)
@@ -71,7 +73,7 @@ class Graphene.GraphiteModel extends Backbone.Model
       success: (js) =>
         console.log("got data.")
         @process_data(js)
-    $.ajax options         
+    $.ajax options
 
   process_data: ()=>
     return null
@@ -289,7 +291,7 @@ class Graphene.TimeSeriesView extends Backbone.View
   initialize: ()->
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
-    @num_labels = @options.labels || 3
+    @num_labels = @options.num_labels || 3
     @sort_labels = @options.labels_sort || 'desc'
     @display_verticals = @options.display_verticals || false
     @width = @options.width || 400
@@ -300,7 +302,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
-    @asInfinite = @options.as_infinite || []
+    @asInfinite = @options.asInfinite || []
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -356,11 +358,12 @@ class Graphene.TimeSeriesView extends Backbone.View
     #    a > 0 value to infinity (here the max value in graph) or 0 otherwise.
     #
     di = 0
-    _.each data, (d)=>
-      if @asInfinite && _.include(@asInfinite, di)
-        _.each d.points, (p) =>
-          p[0] =  if p[0] > 0 then dmax.ymax else 0
-      di += 1
+    if @asInfinite
+      _.each data, (d)=>
+        if _.include(@asInfinite, d.i) || _.include(@asInfintie, d.label)
+          _.each d.points, (p) =>
+            p[0] = if p[0] > 0 then dmax.ymax else 0
+        di += 1
 
     #
     # get first X labels
