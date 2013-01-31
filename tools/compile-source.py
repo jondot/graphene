@@ -1,7 +1,12 @@
 #!/usr/bin/python2.7
 
-import httplib, urllib, sys
+import httplib, urllib, sys, os
 import subprocess
+
+#Change the script's working directory to the script's own directory
+abspath = os.path.abs_path(__file__)
+script_dir = os.path.dirname(abspath)
+os.chdir(script_dir)
 
 with open('../app/js/d3.gauge.js') as graphene_gauge_file:
     graphene_gauge = graphene_gauge_file.read()
