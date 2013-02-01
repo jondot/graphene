@@ -1,0 +1,54 @@
+require 'rake-pipeline-web-filters'
+
+output "build"
+
+class Rake::Pipeline::DSL::PipelineDSL
+  def production?
+    ENV['RAKEP_MODE'] == 'production'
+  end
+end
+
+input "." do
+
+  match "app/js/*.coffee" do
+    coffee_script
+  end
+
+  # js dependencies should be restructured with either
+  #
+  # node-browserify
+  # stitch
+  # minispade
+  #
+  # which will make most of this hand-ordering for dependency obsolete
+  #
+  match "vendor/js/*.js" do
+    concat %w[
+      vendor/js/underscore.js
+      vendor/js/backbone.js
+      vendor/js/d3.js
+    ], "app/js/libs.js"
+  end
+
+  match "app/js/*.js" do
+    uglify if production?
+    concat %w[
+      app/js/libs.js
+      app/js/d3.gauge.js
+    ], "index.js"
+  end
+
+
+
+
+  match "app/css/index.scss" do
+    scss
+    concat "index.css"
+  end
+
+end
+
+
+# vim:ft=ruby
+
+
