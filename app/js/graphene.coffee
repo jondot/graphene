@@ -26,14 +26,17 @@ class Graphene
         ts.start()
 
   discover: (url, dash, parent_specifier, cb)->
-    $.get "#{url}/dashboard/load/#{dash}", (data)->
+    $.getJSON "#{url}/dashboard/load/#{dash}", (data)->
       i = 0
       desc = {}
       _.each data['state']['graphs'], (graph)->
         path = graph[2]
+        conf = graph[1]
+        title = if conf.title then conf.title else "n/a"
         desc["Graph #{i}"] =
           source: "#{url}#{path}&format=json"
           TimeSeries:
+            title: title
             parent: parent_specifier(i, url)
         i++
       cb(desc)
