@@ -21,8 +21,8 @@ class Graphene
 
       _.each json[k], (opts, view)=>
         klass = eval("Graphene.#{view}View")
-        console.log _.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts)
-        new klass(_.extend({ model: ts, ymax:@getUrlParam(model_opts.source, "yMax") }, opts))
+        console.log _.extend({ model: ts, ymin:@getUrlParam(model_opts.source, "yMin"), ymax:@getUrlParam(model_opts.source, "yMax") }, opts)
+        new klass(_.extend({ model: ts, ymin:@getUrlParam(model_opts.source, "yMin"), ymax:@getUrlParam(model_opts.source, "yMax") }, opts))
         ts.start()
 
   discover: (url, dash, parent_specifier, cb)->
@@ -37,6 +37,7 @@ class Graphene
           source: "#{url}#{path}&format=json"
           TimeSeries:
             title: title
+            ymin: conf.yMin
             parent: parent_specifier(i, url)
         i++
       cb(desc)
