@@ -365,6 +365,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     dmax = _.max data, (d)-> d.ymax
     dmax.ymax_graph = @options.ymax || dmax.ymax
     dmin = _.min data, (d)-> d.ymin
+    dmin.ymin_graph = @options.ymin ? dmin.ymin
 
     #
     # build dynamic x & y metrics.
@@ -374,7 +375,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     xmax = _.max xpoints, (x)->x.valueOf()
 
     x = d3.time.scale().domain([xmin, xmax]).range([0, @width])
-    y = d3.scale.linear().domain([dmin.ymin, dmax.ymax_graph]).range([@height, 0]).nice()
+    y = d3.scale.linear().domain([dmin.ymin_graph, dmax.ymax_graph]).range([@height, 0]).nice()
 
     #
     # build axis
