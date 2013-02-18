@@ -192,11 +192,14 @@ class Graphene.TimeSeries extends Graphene.GraphiteModel
       return null unless min != undefined
       max = d3.max(dp.datapoints, (d) -> d[0])
       return null unless max != undefined
+      last = _.last(dp.datapoints)[0] ? 0
+      return null unless last != undefined      
       _.each dp.datapoints, (d) -> d[1] = new Date(d[1]*1000)
       return {
         points: _.reject(dp.datapoints, (d)-> d[0] == null),
         ymin: min,
         ymax: max,
+        last: last,
         label: dp.target
       }
     data = _.reject data, (d)-> d == null
@@ -250,7 +253,7 @@ class Graphene.GaugeGadgetView extends Backbone.View
     switch @type
       when "min"     then d.ymin
       when "max"     then d.ymax
-      when "current" then d.points[d.points.length - 1][0]
+      when "current" then d.last
       else d.points[0][0]
 
   render: ()=>
@@ -292,7 +295,7 @@ class Graphene.GaugeLabelView extends Backbone.View
     switch @type
       when "min"     then d.ymin
       when "max"     then d.ymax
-      when "current" then d.points[d.points.length - 1][0]
+      when "current" then d.last
       else d.points[0][0]
 
   render: ()=>
@@ -338,6 +341,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
+    @show_current = @options.show_current || false
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -484,6 +488,12 @@ class Graphene.TimeSeriesView extends Backbone.View
         .attr('class', 'max-tag')
         .attr('dx', 2)
         .text((d) => @value_format(d.ymax)+"max")
+
+    if @show_current is true
+      litem_enters_text.append('svg:tspan')
+          .attr('class', 'last-tag')
+          .attr('dx', 2)
+          .text((d) => @value_format(d.last)+"last")
 
 
 
