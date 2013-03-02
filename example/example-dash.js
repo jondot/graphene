@@ -5,6 +5,9 @@
       source: "http://localhost:4567/",
       GaugeLabel: {
         parent: "#hero-one",
+        observer: function(data){
+          console.log("Label observing " + data);
+        },
         title: "Notifications Served",
         type: "max"
       }
@@ -13,7 +16,10 @@
       source: "http://localhost:4567/",
       GaugeGadget: {
         parent: "#hero-one",
-        title: "P1"
+        title: "P1",
+        observer: function(data){
+          console.log("Gadget observing " +data);
+        }
       }
     },
    
@@ -35,7 +41,10 @@
     "New Message": {
       source: "http://localhost:4567/",
       TimeSeries: {
-        parent: '#g1-1'
+        parent: '#g1-1',
+        observer: function(data){
+          console.log("Time series observing ", data);
+        }
       }
     },
     "Feed Poll": {

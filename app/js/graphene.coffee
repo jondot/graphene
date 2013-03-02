@@ -225,6 +225,8 @@ class Graphene.GaugeGadgetView extends Backbone.View
     @from = @options.from || 0
     @to = @options.to || 100
 
+    @observer = @options.observer
+
     @vis = d3.select(@parent).append("div")
             .attr("class", "ggview")
             .attr("id", @title+"GaugeContainer")
@@ -262,6 +264,8 @@ class Graphene.GaugeGadgetView extends Backbone.View
     data = @model.get('data')
     datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
+    @observer(@by_type(datum)) if @observer
+
     @gauge.redraw(@by_type(datum), @value_format)
 
 
@@ -280,6 +284,7 @@ class Graphene.GaugeLabelView extends Backbone.View
     @value_format  = @options.value_format || ".3s"
     @value_format = d3.format(@value_format)
     @null_value = 0
+    @observer = @options.observer
 
     @vis = d3.select(@parent).append("div")
             .attr("class", "glview")
@@ -304,6 +309,8 @@ class Graphene.GaugeLabelView extends Backbone.View
     console.log data
     datum = if data && data.length > 0 then data[0] else { ymax: @null_value, ymin: @null_value, points: [[@null_value, 0]] }
 
+    # let observer know about this
+    @observer(@by_type(datum)) if @observer
 
     vis = @vis
     metric_items = vis.selectAll('div.metric')
@@ -343,6 +350,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @parent = @options.parent || '#parent'
     @null_value = 0
     @show_current = @options.show_current || false
+    @observer = @options.observer
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -403,6 +411,10 @@ class Graphene.TimeSeriesView extends Backbone.View
     order = if(@sort_labels == 'desc') then -1 else 1
 
     data = _.sortBy(data, (d)-> order*d.ymax)
+
+
+    # let observer know about this
+    @observer(data) if @observer
 
     #
     # get raw data points (throw away all of the other blabber
