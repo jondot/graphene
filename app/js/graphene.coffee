@@ -339,7 +339,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
     @num_labels = @options.num_labels || 3
-    @sort_labels = @options.labels_sort || 'desc'
+    @sort_labels = @options.labels_sort
     @display_verticals = @options.display_verticals || false
     @width = @options.width || 400
     @height = @options.height || 100
@@ -408,9 +408,9 @@ class Graphene.TimeSeriesView extends Backbone.View
     #
     # get first X labels
     #
-    order = if(@sort_labels == 'desc') then -1 else 1
-
-    data = _.sortBy(data, (d)-> order*d.ymax)
+    if @sort_labels
+      order = if(@sort_labels == 'desc') then -1 else 1
+      data = _.sortBy(data, (d)-> order*d.ymax)
 
 
     # let observer know about this
