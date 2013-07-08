@@ -74,7 +74,7 @@
     },
     "Foo Work": {
       source: "http://localhost:4567/",
-      TimeSeries: {
+      BarChart: {
         parent: '#g2-3'
       }
     }
