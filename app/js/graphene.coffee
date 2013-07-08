@@ -603,8 +603,8 @@ class Graphene.BarChartView extends Backbone.View
       y(d[0])
 
     # Create axes
-    xtick_sz = if @display_verticals then -@height else 5
-    xAxis = d3.svg.axis().scale(x).ticks(4).tickSize(xtick_sz)
+    xtick_sz = if @display_verticals then -@height else 0
+    xAxis = d3.svg.axis().scale(x).ticks(_.min([4, columnGroups])).tickSize(xtick_sz).tickSubdivide(true)
     yAxis = d3.svg.axis().scale(y).ticks(4).tickSize(-@width).orient("left").tickFormat(d3.format("s"))
     vis = @vis
 
