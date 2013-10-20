@@ -338,12 +338,14 @@ class Graphene.TimeSeriesView extends Backbone.View
   initialize: ()->
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
+    @label_offset = @options.label_offset || 0
+    @label_columns = @options.label_columns || 1
     @num_labels = @options.num_labels || 3
     @sort_labels = @options.labels_sort
     @display_verticals = @options.display_verticals || false
     @width = @options.width || 400
     @height = @options.height || 100
-    @padding = @options.padding || [@line_height*2, 32, @line_height*(3+@num_labels), 32] #trbl
+    @padding = @options.padding || [@line_height*2, 32, @line_height*(3+(@num_labels / @label_columns)), 32] #trbl
     @title = @options.title
     @label_formatter = @options.label_formatter || (label) -> label
     @firstrun = true
@@ -480,7 +482,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     # only per entering item, attach a color box and text.
     litem_enters = leg_items.enter()
       .append('svg:g')
-      .attr('transform', (d, i) => "translate(0, #{i*@line_height})")
+      .attr('transform', (d, i) => "translate(#{(i % @label_columns) * @label_offset}, #{parseInt(i / @label_columns) * @line_height})")
       .attr('class', 'l')
     litem_enters.append('svg:rect')
       .attr('width', 5)
