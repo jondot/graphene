@@ -336,6 +336,7 @@ class Graphene.TimeSeriesView extends Backbone.View
   tagName: 'div'
 
   initialize: ()->
+    @name = @options.name || parseInt(Math.random() * 1000000) + ""
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
     @label_offset = @options.label_offset || 0
@@ -347,7 +348,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @height = @options.height || 100
     @padding = @options.padding || [@line_height*2, 32, @line_height*(3+(@num_labels / @label_columns)), 32] #trbl
     @title = @options.title
-    @label_formatter = @options.label_formatter || (label) -> label
+    @label_formatter = @options.label_formatter || (label, index) -> label
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
@@ -365,7 +366,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @value_format = d3.format(@value_format)
 
     @model.bind('change', @render)
-    console.log("TS view: #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
+    console.log("TS view: #{@name} #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
 
 
   render: ()=>
@@ -492,7 +493,7 @@ class Graphene.TimeSeriesView extends Backbone.View
       .attr('dx', 10)
       .attr('dy', 6)
       .attr('class', 'ts-text')
-      .text((d) => @label_formatter(d.label))
+      .text((d, i) => @label_formatter(d.label, i))
 
     litem_enters_text.append('svg:tspan')
         .attr('class', 'min-tag')
@@ -525,10 +526,10 @@ class Graphene.TimeSeriesView extends Backbone.View
         .ease("linear")
         .duration(@animate_ms)
 
-
     vis.selectAll("path.line")
         .data(points)
         .attr("d", line)
+        .attr("id", (d, i) =>  @name + "-" + i)
         .transition()
         .ease("linear")
         .duration(@animate_ms)
