@@ -336,7 +336,7 @@ class Graphene.TimeSeriesView extends Backbone.View
   tagName: 'div'
 
   initialize: ()->
-    @name = @options.name || parseInt(Math.random() * 1000000) + ""
+    @name = @options.name || "g-" + parseInt(Math.random() * 1000000)
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
     @label_offset = @options.label_offset || 0
