@@ -341,6 +341,8 @@ class Graphene.TimeSeriesView extends Backbone.View
     @animate_ms = @options.animate_ms || 500
     @label_offset = @options.label_offset || 0
     @label_columns = @options.label_columns || 1
+    @label_href = @options.label_href || (label) -> '#'
+    @label_formatter = @options.label_formatter || (label) -> label
     @num_labels = @options.num_labels || 3
     @sort_labels = @options.labels_sort
     @display_verticals = @options.display_verticals || false
@@ -348,12 +350,12 @@ class Graphene.TimeSeriesView extends Backbone.View
     @height = @options.height || 100
     @padding = @options.padding || [@line_height*2, 32, @line_height*(3+(@num_labels / @label_columns)), 32] #trbl
     @title = @options.title
-    @label_formatter = @options.label_formatter || (label, index) -> label
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
     @show_current = @options.show_current || false
     @observer = @options.observer
+    @postrender = @options.post_render
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -489,11 +491,17 @@ class Graphene.TimeSeriesView extends Backbone.View
       .attr('width', 5)
       .attr('height', 5)
       .attr('class', (d,i) -> 'ts-color '+"h-col-#{i+1}")
-    litem_enters_text = litem_enters.append('svg:text')
+
+    litem_enters_a = litem_enters.append('svg:a')
+      .attr('xlink:href', (d) => @label_href(d.label))
+      .attr('class', 'l')
+      .attr('id', (d, i) =>  @name + "-" + i)
+
+    litem_enters_text = litem_enters_a.append('svg:text')
       .attr('dx', 10)
       .attr('dy', 6)
       .attr('class', 'ts-text')
-      .text((d, i) => @label_formatter(d.label, i))
+      .text((d) => @label_formatter(d.label))
 
     litem_enters_text.append('svg:tspan')
         .attr('class', 'min-tag')
@@ -510,8 +518,6 @@ class Graphene.TimeSeriesView extends Backbone.View
           .attr('class', 'last-tag')
           .attr('dx', 2)
           .text((d) => @value_format(d.last)+"last")
-
-
 
     #
     # update the graph
@@ -534,6 +540,7 @@ class Graphene.TimeSeriesView extends Backbone.View
         .ease("linear")
         .duration(@animate_ms)
 
+    @postrender(@vis)
 
 # Barcharts
 class Graphene.BarChartView extends Backbone.View
