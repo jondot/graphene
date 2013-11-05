@@ -42,6 +42,8 @@
       source: "http://localhost:4567/",
       TimeSeries: {
         parent: '#g1-1',
+		label_offset: 200, 
+		label_columns: 2,
         observer: function(data){
           console.log("Time series observing ", data);
         }
