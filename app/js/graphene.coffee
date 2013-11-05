@@ -336,21 +336,26 @@ class Graphene.TimeSeriesView extends Backbone.View
   tagName: 'div'
 
   initialize: ()->
+    @name = @options.name || "g-" + parseInt(Math.random() * 1000000)
     @line_height = @options.line_height || 16
     @animate_ms = @options.animate_ms || 500
+    @label_offset = @options.label_offset || 0
+    @label_columns = @options.label_columns || 1
+    @label_href = @options.label_href || (label) -> '#'
+    @label_formatter = @options.label_formatter || (label) -> label
     @num_labels = @options.num_labels || 3
     @sort_labels = @options.labels_sort
     @display_verticals = @options.display_verticals || false
     @width = @options.width || 400
     @height = @options.height || 100
-    @padding = @options.padding || [@line_height*2, 32, @line_height*(3+@num_labels), 32] #trbl
+    @padding = @options.padding || [@line_height*2, 32, @line_height*(3+(@num_labels / @label_columns)), 32] #trbl
     @title = @options.title
-    @label_formatter = @options.label_formatter || (label) -> label
     @firstrun = true
     @parent = @options.parent || '#parent'
     @null_value = 0
     @show_current = @options.show_current || false
     @observer = @options.observer
+    @postrender = @options.post_render || postRenderTimeSeriesView
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
@@ -363,7 +368,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @value_format = d3.format(@value_format)
 
     @model.bind('change', @render)
-    console.log("TS view: #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
+    console.log("TS view: #{@name} #{@width}x#{@height} padding:#{@padding} animate: #{@animate_ms} labels: #{@num_labels}")
 
 
   render: ()=>
@@ -480,13 +485,19 @@ class Graphene.TimeSeriesView extends Backbone.View
     # only per entering item, attach a color box and text.
     litem_enters = leg_items.enter()
       .append('svg:g')
-      .attr('transform', (d, i) => "translate(0, #{i*@line_height})")
+      .attr('transform', (d, i) => "translate(#{(i % @label_columns) * @label_offset}, #{parseInt(i / @label_columns) * @line_height})")
       .attr('class', 'l')
     litem_enters.append('svg:rect')
       .attr('width', 5)
       .attr('height', 5)
       .attr('class', (d,i) -> 'ts-color '+"h-col-#{i+1}")
-    litem_enters_text = litem_enters.append('svg:text')
+
+    litem_enters_a = litem_enters.append('svg:a')
+      .attr('xlink:href', (d) => @label_href(d.label))
+      .attr('class', 'l')
+      .attr('id', (d, i) =>  @name + "-" + i)
+
+    litem_enters_text = litem_enters_a.append('svg:text')
       .attr('dx', 10)
       .attr('dy', 6)
       .attr('class', 'ts-text')
@@ -508,8 +519,6 @@ class Graphene.TimeSeriesView extends Backbone.View
           .attr('dx', 2)
           .text((d) => @value_format(d.last)+"last")
 
-
-
     #
     # update the graph
     #
@@ -519,18 +528,20 @@ class Graphene.TimeSeriesView extends Backbone.View
     vis.selectAll("path.area")
         .data(points)
         .attr("d", area)
+        .attr("id", (d, i) =>  "a-" + @name + "-" + i)
         .transition()
         .ease("linear")
         .duration(@animate_ms)
-
 
     vis.selectAll("path.line")
         .data(points)
         .attr("d", line)
+        .attr("id", (d, i) =>  "l-" + @name + "-" + i)
         .transition()
         .ease("linear")
         .duration(@animate_ms)
 
+    @postrender(@vis)
 
 # Barcharts
 class Graphene.BarChartView extends Backbone.View

@@ -694,6 +694,9 @@ line.tick {
   fill: none;
   stroke-width: 1px; }
 
+.line-highlight {
+  stroke-width: 5px; }
+
 .axis {
   shape-rendering: crispEdges; }
 
