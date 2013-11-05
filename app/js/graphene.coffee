@@ -355,7 +355,7 @@ class Graphene.TimeSeriesView extends Backbone.View
     @null_value = 0
     @show_current = @options.show_current || false
     @observer = @options.observer
-    @postrender = @options.post_render
+    @postrender = @options.post_render || postRenderTimeSeriesView
 
     @vis = d3.select(@parent).append("svg")
             .attr("class", "tsview")
