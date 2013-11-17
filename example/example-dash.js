@@ -55,7 +55,7 @@
       source: "http://localhost:4567/",
       TimeSeries: {
         title: 'Feed Poll',
-        y_scale: 2,
+        y_ticks: 2,
         display_verticals: true,
         parent: '#g1-2'
       }
