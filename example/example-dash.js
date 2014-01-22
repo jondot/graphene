@@ -42,8 +42,10 @@
       source: "http://localhost:4567/",
       TimeSeries: {
         parent: '#g1-1',
-		label_offset: 200, 
-		label_columns: 2,
+        title: 'New Message',
+        label_offset: 200, 
+        label_columns: 2,
+        time_span_mins: 12,
         observer: function(data){
           console.log("Time series observing ", data);
         }
@@ -52,6 +54,9 @@
     "Feed Poll": {
       source: "http://localhost:4567/",
       TimeSeries: {
+        title: 'Feed Poll',
+        y_ticks: 2,
+        display_verticals: true,
         parent: '#g1-2'
       }
     },
@@ -59,12 +64,17 @@
       source: "http://localhost:4567/",
       refresh_interval: 20000,
       TimeSeries: {
+        title: 'Topics',
         parent: '#g1-3'
       }
     },
     "Queue Push": {
       source: "http://localhost:4567/",
       TimeSeries: {
+        title: 'Queue Push',
+        ymax: 1000,
+        warn: 600,
+        error: 800,
         parent: '#g2-1'
       }
     },

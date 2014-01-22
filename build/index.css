@@ -711,6 +711,16 @@ line.tick {
   fill: none;
   stroke-opacity: 0.3; }
 
+path.line-warn {
+  stroke: yellow;
+  fill: yellow;
+  stroke-width: 2px; }
+
+path.line-error {
+  stroke: red;
+  fill: red;
+  stroke-width: 2px; }
+
 .min-tag {
   fill: red;
   margin: 0 1em; }

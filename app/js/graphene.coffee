@@ -338,6 +338,8 @@ class Graphene.TimeSeriesView extends Backbone.View
   initialize: ()->
     @name = @options.name || "g-" + parseInt(Math.random() * 1000000)
     @line_height = @options.line_height || 16
+    @x_ticks = @options.x_ticks || 4
+    @y_ticks = @options.y_ticks || 4
     @animate_ms = @options.animate_ms || 500
     @label_offset = @options.label_offset || 0
     @label_columns = @options.label_columns || 1
@@ -399,8 +401,8 @@ class Graphene.TimeSeriesView extends Backbone.View
     # build axis
     #
     xtick_sz = if @display_verticals then -@height else 0
-    xAxis = d3.svg.axis().scale(x).ticks(4).tickSize(xtick_sz).tickSubdivide(true)
-    yAxis = d3.svg.axis().scale(y).ticks(4).tickSize(-@width).orient("left").tickFormat(d3.format("s"))
+    xAxis = d3.svg.axis().scale(x).ticks(@x_ticks).tickSize(xtick_sz).tickSubdivide(true)
+    yAxis = d3.svg.axis().scale(y).ticks(@y_ticks).tickSize(-@width).orient("left").tickFormat(d3.format("s"))
 
     vis = @vis
 
@@ -452,7 +454,27 @@ class Graphene.TimeSeriesView extends Backbone.View
       #
       vis.selectAll("path.line").data(points).enter().append('path').attr("d", line).attr('class',  (d,i) -> 'line '+"h-col-#{i+1}")
       vis.selectAll("path.area").data(points).enter().append('path').attr("d", area).attr('class',  (d,i) -> 'area '+"h-col-#{i+1}")
-
+          
+      if (@options.warn && (dmax.ymax_graph > @options.warn))
+          warnData = [[[@options.warn, xmin],[@options.warn, xmax]]]
+          vis.selectAll("path.line-warn")
+            .data(warnData)
+            .enter()
+            .append('path')
+            .attr('d', line)
+            .attr('stroke-dasharray', '10,10')
+            .attr('class', 'line-warn')
+      
+      if (@options.error && (dmax.ymax_graph > @options.error))
+          errorData= [[[@options.error, xmin],[@options.error, xmax]]]
+          vis.selectAll("path.line-error")
+            .data(errorData)
+            .enter()
+            .append('path')
+            .attr('d', line)
+            .attr('stroke-dasharray', '10,10')
+            .attr('class', 'line-error')
+                      
       #
       # Title + Legend
       #
@@ -540,7 +562,7 @@ class Graphene.TimeSeriesView extends Backbone.View
         .transition()
         .ease("linear")
         .duration(@animate_ms)
-
+        
     @postrender(@vis)
 
 # Barcharts
