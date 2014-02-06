@@ -1,6 +1,9 @@
 
 
 class Graphene
+  constructor:->
+    @models = {}
+
   demo:->
     @is_demo = true
 
@@ -18,6 +21,7 @@ class Graphene
         model_opts.refresh_interval = json[k].refresh_interval
         delete json[k].refresh_interval
       ts = new klass(model_opts)
+      @models[k] = ts
 
       _.each json[k], (opts, view)=>
         klass = eval("Graphene.#{view}View")
