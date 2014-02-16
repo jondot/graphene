@@ -694,6 +694,9 @@ line.tick {
   fill: none;
   stroke-width: 1px; }
 
+.line-highlight {
+  stroke-width: 5px; }
+
 .axis {
   shape-rendering: crispEdges; }
 
@@ -707,6 +710,16 @@ line.tick {
 .y.axis line, .y.axis path {
   fill: none;
   stroke-opacity: 0.3; }
+
+path.line-warn {
+  stroke: yellow;
+  fill: yellow;
+  stroke-width: 2px; }
+
+path.line-error {
+  stroke: red;
+  fill: red;
+  stroke-width: 2px; }
 
 .min-tag {
   fill: red;
