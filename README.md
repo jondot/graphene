@@ -55,8 +55,8 @@ and plug the Graphite data source. Don't worry - more about it
 after this.  
 
 
-As of now, you can place 3 types of data-enabled widgets on your
-dashboard: `TimeSeries`, `GaugeLabel`, and a `GaugeGadget`  
+As of now, you can place 4 types of data-enabled widgets on your
+dashboard: `TimeSeries`, `GaugeLabel`, `ProgressBarGadget` and a `GaugeGadget`
 You can have as many of these as you want, and you can also hook up
 several widgets to the same data source.
 
@@ -198,6 +198,14 @@ description.
 * `from` - start value of the gauge
 * `to` - end value of the gauge
 
+
+### ProgressBarGadget
+
+* `unit` - unit to display, example "km", or "req/s"
+* `title` - progressbar title
+* `type` - same as GaugeLabel
+* `value_format` - value format
+* `to` - end value of the progressbar
 
 ### TimeSeries
 

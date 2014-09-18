@@ -22,6 +22,18 @@
         }
       }
     },
+    "CPU": {
+      source: "http://localhost:4567/",
+      ProgressBarGadget: {
+        parent: "#hero-one",
+        title: "CPU",
+        to: 1000,
+        unit: "%",
+        observer: function(data){
+          console.log("Progress observing " +data);
+        }
+      }
+    },
    
 
     "Total Installs": {
@@ -38,6 +50,19 @@
         title: "Cl1"
       }
     },
+    "CTR": {
+      source: "http://localhost:4567/",
+      ProgressBarGadget: {
+        parent: "#hero-three",
+        title: "CTR",
+        to: 1000,
+        unit: "%",
+        observer: function(data){
+          console.log("Progress observing " +data);
+        }
+      }
+    },
+      
     "New Message": {
       source: "http://localhost:4567/",
       TimeSeries: {
